@@ -16,6 +16,44 @@
                         {{ __('Dashboard') }}
                     </flux:sidebar.item>
                 </flux:sidebar.group>
+
+                @php
+                    $currentRole = App\DashboardRole::tryFrom(request('role', 'super_admin')) ?? App\DashboardRole::SUPER_ADMIN;
+                @endphp
+
+                @if ($currentRole === App\DashboardRole::SUPER_ADMIN)
+                    <flux:sidebar.group :heading="__('Management')" class="grid">
+                        <flux:sidebar.item icon="calendar" :href="route('admin.school-years')" :current="request()->routeIs('admin.school-years')" wire:navigate>
+                            {{ __('School Years') }}
+                        </flux:sidebar.item>
+                        <flux:sidebar.item icon="users" :href="route('admin.users')" :current="request()->routeIs('admin.users')" wire:navigate>
+                            {{ __('User Manager') }}
+                        </flux:sidebar.item>
+                        <flux:sidebar.item icon="cog-6-tooth" :href="route('admin.settings')" :current="request()->routeIs('admin.settings')" wire:navigate>
+                            {{ __('System Settings') }}
+                        </flux:sidebar.item>
+                    </flux:sidebar.group>
+                @endif
+
+                <flux:sidebar.group :heading="__('Switch Role (Dev)')" class="grid">
+                    <flux:dropdown>
+                        <flux:button variant="ghost" class="w-full justify-between" icon-trailing="chevron-down">
+                            {{ $currentRole->label() }}
+                        </flux:button>
+
+                        <flux:menu>
+                            @foreach (App\DashboardRole::cases() as $role)
+                                <flux:menu.item
+                                    :href="route('dashboard', ['role' => $role->value])"
+                                    :current="request('role') === $role->value"
+                                    wire:navigate
+                                >
+                                    {{ $role->label() }}
+                                </flux:menu.item>
+                            @endforeach
+                        </flux:menu>
+                    </flux:dropdown>
+                </flux:sidebar.group>
             </flux:sidebar.nav>
 
             <flux:spacer />
