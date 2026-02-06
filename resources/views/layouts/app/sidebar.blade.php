@@ -2,6 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
     <head>
         @include('partials.head')
+        @fluxAppearance
     </head>
     <body class="min-h-screen bg-white dark:bg-zinc-800">
         <flux:sidebar sticky collapsible="mobile" class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
@@ -15,44 +16,6 @@
                     <flux:sidebar.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </flux:sidebar.item>
-                </flux:sidebar.group>
-
-                @php
-                    $currentRole = App\DashboardRole::tryFrom(request('role', 'super_admin')) ?? App\DashboardRole::SUPER_ADMIN;
-                @endphp
-
-                @if ($currentRole === App\DashboardRole::SUPER_ADMIN)
-                    <flux:sidebar.group :heading="__('Management')" class="grid">
-                        <flux:sidebar.item icon="calendar" :href="route('admin.school-years')" :current="request()->routeIs('admin.school-years')" wire:navigate>
-                            {{ __('School Years') }}
-                        </flux:sidebar.item>
-                        <flux:sidebar.item icon="users" :href="route('admin.users')" :current="request()->routeIs('admin.users')" wire:navigate>
-                            {{ __('User Manager') }}
-                        </flux:sidebar.item>
-                        <flux:sidebar.item icon="cog-6-tooth" :href="route('admin.settings')" :current="request()->routeIs('admin.settings')" wire:navigate>
-                            {{ __('System Settings') }}
-                        </flux:sidebar.item>
-                    </flux:sidebar.group>
-                @endif
-
-                <flux:sidebar.group :heading="__('Switch Role (Dev)')" class="grid">
-                    <flux:dropdown>
-                        <flux:button variant="ghost" class="w-full justify-between" icon-trailing="chevron-down">
-                            {{ $currentRole->label() }}
-                        </flux:button>
-
-                        <flux:menu>
-                            @foreach (App\DashboardRole::cases() as $role)
-                                <flux:menu.item
-                                    :href="route('dashboard', ['role' => $role->value])"
-                                    :current="request('role') === $role->value"
-                                    wire:navigate
-                                >
-                                    {{ $role->label() }}
-                                </flux:menu.item>
-                            @endforeach
-                        </flux:menu>
-                    </flux:dropdown>
                 </flux:sidebar.group>
             </flux:sidebar.nav>
 
