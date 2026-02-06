@@ -1,0 +1,20 @@
+<?php
+
+namespace App\Livewire\Teacher;
+
+use Livewire\Component;
+
+class Dashboard extends Component
+{
+
+    public function mount()
+    {
+        $this->authorize('manage-academics');
+    }
+
+    public function render()
+    {
+        return view('livewire.teacher.dashboard')
+            ->layout('layouts.app');
+    }
+}

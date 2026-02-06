@@ -11,12 +11,82 @@
                 <flux:sidebar.collapse class="lg:hidden" />
             </flux:sidebar.header>
 
+
+
+
+
             <flux:sidebar.nav>
                 <flux:sidebar.group :heading="__('Platform')" class="grid">
-                    <flux:sidebar.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
-                        {{ __('Dashboard') }}
+                    <flux:sidebar.item icon="home" :href="route(auth()->user()->role->value . '.dashboard')"
+                        :current="request()->routeIs('*.dashboard')"
+                        wire:navigate>
+                            {{ __('Dashboard') }}
                     </flux:sidebar.item>
                 </flux:sidebar.group>
+
+                @can('super-admin')
+                <flux:sidebar.group :heading="__('Platform')" class="grid">
+                    <flux:sidebar.item icon="home" :href="route('dashboard')"
+                        :current="request()->routeIs('dashboard')" wire:navigate>
+                            {{ __('Dashboard') }}
+                    </flux:sidebar.item>
+                </flux:sidebar.group>
+                @endcan
+
+                @can('admin-access')
+                <flux:sidebar.group :heading="__('Platform')" class="grid">
+                    <flux:sidebar.item icon="home" :href="route('dashboard')"
+                        :current="request()->routeIs('dashboard')" wire:navigate>
+                            {{ __('Dashboard') }}
+                    </flux:sidebar.item>
+                </flux:sidebar.group>
+                @endcan
+
+                @can('manage-registry')
+                <flux:sidebar.group :heading="__('Platform')" class="grid">
+                    <flux:sidebar.item icon="home" :href="route('dashboard')"
+                        :current="request()->routeIs('dashboard')" wire:navigate>
+                            {{ __('Dashboard') }}
+                    </flux:sidebar.item>
+                </flux:sidebar.group>
+                @endcan
+
+                @can('manage-finance')
+                <flux:sidebar.group :heading="__('Platform')" class="grid">
+                    <flux:sidebar.item icon="home" :href="route('dashboard')"
+                        :current="request()->routeIs('dashboard')" wire:navigate>
+                            {{ __('Dashboard') }}
+                    </flux:sidebar.item>
+                </flux:sidebar.group>
+                @endcan
+
+                @can('manage-academics')
+                <flux:sidebar.group :heading="__('Platform')" class="grid">
+                    <flux:sidebar.item icon="home" :href="route('dashboard')"
+                        :current="request()->routeIs('dashboard')" wire:navigate>
+                            {{ __('Dashboard') }}
+                    </flux:sidebar.item>
+                </flux:sidebar.group>
+                @endcan
+
+                @can('view-student-portal')
+                <flux:sidebar.group :heading="__('Platform')" class="grid">
+                    <flux:sidebar.item icon="home" :href="route('dashboard')"
+                        :current="request()->routeIs('dashboard')" wire:navigate>
+                            {{ __('Dashboard') }}
+                    </flux:sidebar.item>
+                </flux:sidebar.group>
+                @endcan
+
+                @can('view-parent-portal')
+                <flux:sidebar.group :heading="__('Platform')" class="grid">
+                    <flux:sidebar.item icon="home" :href="route('dashboard')"
+                        :current="request()->routeIs('dashboard')" wire:navigate>
+                            {{ __('Dashboard') }}
+                    </flux:sidebar.item>
+                </flux:sidebar.group>
+                @endcan
+                
             </flux:sidebar.nav>
 
             <flux:spacer />
